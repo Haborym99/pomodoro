@@ -11,15 +11,16 @@ class App extends React.Component {
       <div>
         <h1>Pomodoro timer</h1>
         <h2>Customizable pomodoro</h2>
-        <div>Actual timer: {this.state.currentTimer}</div>
-        <div>Actual break: {this.state.currentBreak}</div>
-        <button>Add 1 minute to the timer</button>
+        <div id="session-label">Actual timer:</div>
+        <div id="session-length">{this.state.currentTimer}</div>
+        <div id="break-label">Actual break:</div>
+        <button id="session-increment">Add 1 minute to the timer</button>
         <br/>
-        <button>Add 1 minute to the break</button>
+        <button id="break-increment">Add 1 minute to the break</button>
         <br/>
-        <button>Remove 1 minute to the break</button>
+        <button id="break-decrement">Remove 1 minute to the break</button>
         <br/>
-        <button>Remove 1 minute to the timer</button>
+        <button id="session-decrement">Remove 1 minute to the timer</button>
         <br/>
         <button>Start</button>
         <br/>
