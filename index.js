@@ -3,27 +3,6 @@ const ShowTime = () => {
   return time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
 };
 
-const countdown = (currentTimer, stop, currentSec) => {
-  React.useEffect(() => {
-    currentTimer > 0 &&
-      setTimeout(() => {
-        currentSec -= 1
-      }, 1000);
-  }, [currentTimer]);
-  if (currentSec == 0 || currentSec < 0) {
-    currentSec = 60;
-    currentTimer -= 1;
-  }
-  if (currentTimer == 0) {
-    <Alert severity="info">Break session started!</Alert>;
-    breakCounter();
-  }
-  if (stop == true) {
-    <Alert severity="info">Session paused</Alert>;
-    return;
-  }
-};
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -33,7 +12,7 @@ class App extends React.Component {
       currentSec: 0,
       currentSecBreak: 0,
       stopState: false,
-      startState : false,
+      startState: false,
     };
     this.handleIncrementSession = this.handleIncrementSession.bind(this);
     this.handleDecrementSession = this.handleDecrementSession.bind(this);
@@ -45,8 +24,7 @@ class App extends React.Component {
   }
   handleStart() {
     console.log("STARTED");
-    //countdown(this.state.currentTimer, this.state.stopState, this.state.currentSec);
-    this.counter()
+    this.counter;
     this.setState.stopState = true;
   }
   handleStop() {
@@ -56,7 +34,7 @@ class App extends React.Component {
   }
   handleIncrementSession() {
     console.log("+1 MINUTE SESSION");
-    this.setState(() => ({
+    this.setState(() => ({  
       currentTimer: this.state.currentTimer + 1,
     }));
   }
@@ -89,13 +67,12 @@ class App extends React.Component {
 
   counter() {
     React.useEffect(() => {
-      this.state.currentTimer > 0 &&
+      currentTimer > 0 &&
         setTimeout(() => {
-          this.setState({
-            currentSec: this.state.currentSec - 1,
-          });
+          this.state.currentSec += 1;
         }, 1000);
-    }, [currentTimer]);
+    }, [this.currentSec]);
+    console.log(this.state.currentSec);
     if (this.state.currentSec == 0 || this.state.currentSec < 0) {
       this.state.currentSec = 60;
       this.state.currentTimer -= 1;
@@ -136,13 +113,13 @@ class App extends React.Component {
         <h2>Customizable pomodoro</h2>
         <div id="session-label">
           Actual timer:
-          <div id="session-length">{this.state.currentTimer}</div>
-          <div id="second">{this.state.currentSec}</div>
+          <div id="session-length">{this.state.currentTimer} min</div>
+          <div id="second">{this.state.currentSec} sec</div>
         </div>
         <div id="break-label">
           Actual break:
-          <div>{this.state.currentBreak}</div>
-          <div>{this.state.currentSecBreak}</div>
+          <div>{this.state.currentBreak} min</div>
+          <div>{this.state.currentSecBreak} sec</div>
         </div>
         <button id="session-increment" onClick={this.handleIncrementSession}>
           +1 minute to the timer
