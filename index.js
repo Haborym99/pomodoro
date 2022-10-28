@@ -3,6 +3,8 @@ const ShowTime = () => {
   return time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
 };
 
+var intervalId;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -11,8 +13,6 @@ class App extends React.Component {
       currentBreak: 5,
       currentSec: 0,
       currentSecBreak: 0,
-      stopState: false,
-      startState: false,
     };
     this.handleIncrementSession = this.handleIncrementSession.bind(this);
     this.handleDecrementSession = this.handleDecrementSession.bind(this);
@@ -25,14 +25,11 @@ class App extends React.Component {
 
   handleStart() {
     console.log("STARTED");
-    this.counterTEST();
-    this.setState.startState = true;
+    this.startTimer();
   }
 
   handleStop() {
     console.log("STOPPED");
-    <Alert severity="info">Session paused</Alert>;
-    this.setState.stopState = true;
   }
 
   handleIncrementSession() {
@@ -78,9 +75,37 @@ class App extends React.Component {
     }));
   }
 
-  componentDidUpdate(){
-    const counterTEST = () => {
-      
+  startTimer() {
+    intervalId = setInterval(() => {
+      this.setState({ currentSec: this.state.currentSec + 1 });
+      this.handleTimer();
+    }, 100);
+  }
+
+  handleTimer() {
+    if (this.state.currentSec === 60) {
+      this.setState({ currentSec: 0 });
+      this.setState({ currentTimer: this.state.currentTimer - 1 });
+    }
+    if (this.state.currentTimer === 0) {
+      return this.breakTimer();
+    }
+    if (this.state.currentTimer == 0 && this.state.currentSec == 0) {
+      clearInterval(this.intervalId);
+    }
+  }
+
+  breakTimer() {
+    setInterval(() => {
+      this.setState({ currentBreak: this.state.currentBreak + 1 });
+      this.handleBreak();
+    }, 1000);
+  }
+
+  handleBreak() {
+    if (this.state.currentSecBreak === 60) {
+      this.setState({ currentSecBreak: 0 });
+      this.setState({ currentBreak: this.state.currentBreak - 1 });
     }
   }
 
