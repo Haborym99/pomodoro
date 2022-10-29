@@ -4,6 +4,7 @@ const ShowTime = () => {
 };
 
 var intervalId;
+var breakId;
 
 class App extends React.Component {
   constructor(props) {
@@ -13,6 +14,8 @@ class App extends React.Component {
       currentBreak: 5,
       currentSec: 0,
       currentSecBreak: 0,
+      started: false,
+      stopped: false,
     };
     this.handleIncrementSession = this.handleIncrementSession.bind(this);
     this.handleDecrementSession = this.handleDecrementSession.bind(this);
@@ -30,19 +33,28 @@ class App extends React.Component {
 
   handleStop() {
     console.log("STOPPED");
+    this.pause();
   }
 
   handleIncrementSession() {
     console.log("+1 MINUTE SESSION");
+    if (this.state.started == true && this.state.stopped == false) {
+      return;
+    }
     this.setState(() => ({
       currentTimer: this.state.currentTimer + 1,
+      currentSec: 0,
     }));
   }
 
   handleDecrementSession() {
     console.log("-1 MINUTE SESSION");
+    if (this.state.started == true && this.state.stopped == false) {
+      return;
+    }
     this.setState(() => ({
       currentTimer: this.state.currentTimer - 1,
+      currentSec: 0,
     }));
     if (this.state.currentTimer == 0) {
       this.setState(() => ({ currentTimer: 0 }));
@@ -51,16 +63,25 @@ class App extends React.Component {
 
   handleIncrementBreak() {
     console.log("+1 MINUTE BREAK");
+    if (this.state.started == true && this.state.stopped == false) {
+      return;
+    }
     this.setState(() => ({
       currentBreak: this.state.currentBreak + 1,
+      currentSecBreak: 0,
     }));
   }
 
   handleDecrementBreak() {
     console.log("-1 MINUTE BREAK");
+    if (this.state.started == true && this.state.stopped == false) {
+      return;
+    }
     this.setState(() => ({
       currentBreak: this.state.currentBreak - 1,
+      currentSecBreak: 0,
     }));
+
     if (this.state.currentBreak == 0) {
       this.setState(() => ({ currentBreak: 0 }));
     }
@@ -70,43 +91,57 @@ class App extends React.Component {
     console.log("TIMER & BREAK RESET");
     this.setState(() => ({
       currentTimer: 25,
+      currentSec: 0,
       currentBreak: 5,
+      currentSecBreak: 0,
       realTime: Date(),
     }));
+    this.pause();
   }
 
   startTimer() {
+    this.setState({ started: true });
+    this.setState({ stopped: false });
     intervalId = setInterval(() => {
-      this.setState({ currentSec: this.state.currentSec + 1 });
-      this.handleTimer();
-    }, 100);
-  }
-
-  handleTimer() {
-    if (this.state.currentSec === 60) {
-      this.setState({ currentSec: 0 });
-      this.setState({ currentTimer: this.state.currentTimer - 1 });
-    }
-    if (this.state.currentTimer === 0) {
-      return this.breakTimer();
-    }
-    if (this.state.currentTimer == 0 && this.state.currentSec == 0) {
-      clearInterval(this.intervalId);
-    }
-  }
-
-  breakTimer() {
-    setInterval(() => {
-      this.setState({ currentBreak: this.state.currentBreak + 1 });
-      this.handleBreak();
+      this.setState({ currentSec: this.state.currentSec - 1 });
+      if (this.state.currentSec <= 0) {
+        this.setState({ currentSec: 0 });
+        this.setState({ currentTimer: this.state.currentTimer - 1 });
+      }
+      if (this.state.currentTimer > 0 && this.state.currentSec <= 0) {
+        this.setState({ currentSec: 59 });
+      }
+      if (this.state.currentTimer <= 0 && this.state.currentSec == 0) {
+        clearInterval(intervalId);
+        this.setState({ currentTimer: 25 });
+        this.breakTimer();
+      }
     }, 1000);
   }
 
-  handleBreak() {
-    if (this.state.currentSecBreak === 60) {
-      this.setState({ currentSecBreak: 0 });
-      this.setState({ currentBreak: this.state.currentBreak - 1 });
-    }
+  breakTimer() {
+    this.setState({ started: false });
+    this.setState({ stopped: true });
+    console.log("Start?" + { started }, "Stop?" + { stopped });
+    breakId = setInterval(() => {
+      this.setState({ currentSecBreak: this.state.currentSecBreak - 1 });
+      if (this.state.currentSecBreak <= 0) {
+        this.setState({ currentSecBreak: 0 });
+        this.setState({ currentBreak: this.state.currentBreak - 1 });
+      }
+      if (this.state.currentSecBreak == 0 && this.state.currentBreak > 0) {
+        this.setState({ currentSecBreak: 59 });
+      }
+      if (this.state.currentBreak <= 0 && this.state.currentSecBreak <= 0) {
+        clearInterval(breakId);
+        this.setState({ currentBreak: 5 });
+      }
+    }, 1000);
+  }
+
+  pause() {
+    clearInterval(intervalId);
+    clearInterval(breakId);
   }
 
   render() {
@@ -114,15 +149,17 @@ class App extends React.Component {
       <div>
         <h1>Pomodoro timer</h1>
         <h2>Customizable pomodoro</h2>
-        <div id="session-label">
-          Actual timer:
-          <div id="session-length">{this.state.currentTimer} min</div>
-          <div id="second">{this.state.currentSec} sec</div>
-        </div>
-        <div id="break-label">
-          Actual break:
-          <div>{this.state.currentBreak} min</div>
-          <div>{this.state.currentSecBreak} sec</div>
+        <div id="timer">
+          <div id="session-label">
+            Session length:
+            <div id="session-length">{this.state.currentTimer} min</div>
+            <div id="second-session">{this.state.currentSec} sec</div>
+          </div>
+          <div id="break-label">
+            Break length:
+            <div id="break-length">{this.state.currentBreak} min</div>
+            <div id="second-break">{this.state.currentSecBreak} sec</div>
+          </div>
         </div>
         <button id="session-increment" onClick={this.handleIncrementSession}>
           +1 minute to the timer
@@ -161,48 +198,3 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));
-
-/*
-  counter() {
-    React.useEffect(() => {
-      currentTimer > 0 &&
-        setTimeout(() => {
-          this.setState(() => {
-            this.state.currentSec += 1;
-          });
-        }, 1000);
-    }, [currentSec]);
-    console.log(this.state.currentSec);
-    if (this.state.currentSec == 0 || this.state.currentSec < 0) {
-      this.state.currentSec = 60;
-      this.state.currentTimer -= 1;
-    }
-    if (this.state.currentTimer == 0) {
-      <Alert severity="info">Break session started!</Alert>;
-      breakCounter();
-    }
-    if (this.handleStop == true) {
-      <Alert severity="info">Session paused</Alert>;
-      return;
-    }
-  }
-
-  breakCounter() {
-    setTimeout(() => {
-      this.setState({
-        currentSecBreak: this.state.currentSecBreak - 1,
-      });
-    }, 1000);
-    if (this.state.currentSecBreak == 0 || this.state.currentSecBreak < 0) {
-      this.state.currentSecBreak = 60;
-      this.state.currentBreak -= 1;
-    }
-    if (this.state.currentBreak == 0) {
-      <Alert severity="info">Session is over!</Alert>;
-    }
-    if (this.handleStop == true) {
-      <Alert severity="info">Session paused</Alert>;
-      return;
-    }
-  }
-  */
