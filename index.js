@@ -1,8 +1,3 @@
-const ShowTime = () => {
-  const time = new Date();
-  return time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-};
-
 var intervalId;
 var breakId;
 
@@ -148,49 +143,53 @@ class App extends React.Component {
     return (
       <div>
         <h1>Pomodoro timer</h1>
-        <h2>Customizable pomodoro</h2>
         <div id="timer">
           <div id="session-label">
-            Session length:
+            <p id="session-length-title">Session length:</p>
             <div id="session-length">{this.state.currentTimer} min</div>
             <div id="second-session">{this.state.currentSec} sec</div>
+            <button
+              id="session-increment"
+              onClick={this.handleIncrementSession}
+            >
+              +1 min
+            </button>
+            <br />
+            <button
+              id="session-decrement"
+              onClick={this.handleDecrementSession}
+            >
+              -1 min
+            </button>
+            <br />
           </div>
           <div id="break-label">
-            Break length:
+            <p id="break-label-title">Break length:</p>
             <div id="break-length">{this.state.currentBreak} min</div>
             <div id="second-break">{this.state.currentSecBreak} sec</div>
+            <button id="break-increment" onClick={this.handleIncrementBreak}>
+              +1 min
+            </button>
+            <br />
+            <button id="break-decrement" onClick={this.handleDecrementBreak}>
+              -1 min
+            </button>
+            <br />
           </div>
         </div>
-        <button id="session-increment" onClick={this.handleIncrementSession}>
-          +1 minute to the timer
-        </button>
-        <br />
-        <button id="break-increment" onClick={this.handleIncrementBreak}>
-          +1 minute to the break
-        </button>
-        <br />
-        <button id="break-decrement" onClick={this.handleDecrementBreak}>
-          -1 minute to the break
-        </button>
-        <br />
-        <button id="session-decrement" onClick={this.handleDecrementSession}>
-          -1 minute to the timer
-        </button>
-        <br />
-        <button id="start" onClick={this.handleStart}>
-          Start
-        </button>
-        <br />
-        <button id="stop" onClick={this.handleStop}>
-          Stop
-        </button>
-        <br />
-        <button id="reset" onClick={this.handleReset}>
-          Reset
-        </button>
-        <br />
-        <div>
-          Time: <ShowTime />{" "}
+        <div id="control">
+          <button id="start" onClick={this.handleStart}>
+            Start
+          </button>
+          <br />
+          <button id="stop" onClick={this.handleStop}>
+            Stop
+          </button>
+          <br />
+          <button id="reset" onClick={this.handleReset}>
+            Reset
+          </button>
+          <br />
         </div>
       </div>
     );
