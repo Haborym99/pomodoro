@@ -75,6 +75,7 @@ class App extends React.Component {
     }));
   }
 
+<<<<<<< Updated upstream
   startTimer() {
     intervalId = setInterval(() => {
       this.setState({ currentSec: this.state.currentSec + 1 });
@@ -106,6 +107,15 @@ class App extends React.Component {
     if (this.state.currentSecBreak === 60) {
       this.setState({ currentSecBreak: 0 });
       this.setState({ currentBreak: this.state.currentBreak - 1 });
+=======
+  counterTEST(){
+    this.setState(() => {this.state.startState = true})
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if(this.state.startState == true){
+      console.log("CLOCK TICKING")
+>>>>>>> Stashed changes
     }
   }
 
