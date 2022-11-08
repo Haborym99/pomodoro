@@ -33,9 +33,6 @@ class App extends React.Component {
 
   handleIncrementSession() {
     console.log("+1 MINUTE SESSION");
-    if (this.state.started == true && this.state.stopped == false) {
-      return;
-    }
     this.setState(() => ({
       currentTimer: this.state.currentTimer + 1,
       currentSec: 0,
@@ -44,9 +41,6 @@ class App extends React.Component {
 
   handleDecrementSession() {
     console.log("-1 MINUTE SESSION");
-    if (this.state.started == true && this.state.stopped == false) {
-      return;
-    }
     this.setState(() => ({
       currentTimer: this.state.currentTimer - 1,
       currentSec: 0,
@@ -58,9 +52,6 @@ class App extends React.Component {
 
   handleIncrementBreak() {
     console.log("+1 MINUTE BREAK");
-    if (this.state.started == true && this.state.stopped == false) {
-      return;
-    }
     this.setState(() => ({
       currentBreak: this.state.currentBreak + 1,
       currentSecBreak: 0,
@@ -69,9 +60,6 @@ class App extends React.Component {
 
   handleDecrementBreak() {
     console.log("-1 MINUTE BREAK");
-    if (this.state.started == true && this.state.stopped == false) {
-      return;
-    }
     this.setState(() => ({
       currentBreak: this.state.currentBreak - 1,
       currentSecBreak: 0,
@@ -89,15 +77,12 @@ class App extends React.Component {
       currentSec: 0,
       currentBreak: 5,
       currentSecBreak: 0,
-      realTime: Date(),
     }));
-    this.pause();
   }
 
   startTimer() {
-    this.setState({ started: true });
-    this.setState({ stopped: false });
-    intervalId = setInterval(() => {
+    let pressed = true;
+      intervalId = setInterval(() => {
       this.setState({ currentSec: this.state.currentSec - 1 });
       if (this.state.currentSec <= 0) {
         this.setState({ currentSec: 0 });
@@ -111,14 +96,14 @@ class App extends React.Component {
         this.setState({ currentTimer: 25 });
         this.breakTimer();
       }
+      if (pressed == true){
+        return
+      }
     }, 1000);
   }
 
   breakTimer() {
-    this.setState({ started: false });
-    this.setState({ stopped: true });
-    console.log("Start?" + { started }, "Stop?" + { stopped });
-    breakId = setInterval(() => {
+      breakId = setInterval(() => {
       this.setState({ currentSecBreak: this.state.currentSecBreak - 1 });
       if (this.state.currentSecBreak <= 0) {
         this.setState({ currentSecBreak: 0 });
@@ -130,13 +115,13 @@ class App extends React.Component {
       if (this.state.currentBreak <= 0 && this.state.currentSecBreak <= 0) {
         clearInterval(breakId);
         this.setState({ currentBreak: 5 });
+        return(<audio id="beep" source="https://youtu.be/GVAF07-2Xic" type="audio"></audio>)
       }
     }, 1000);
   }
 
   pause() {
-    clearInterval(intervalId);
-    clearInterval(breakId);
+    return (clearInterval(intervalId), clearInterval(breakId))
   }
 
   render() {
