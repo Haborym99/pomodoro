@@ -24,6 +24,11 @@ button {
   border-radius: 15px;
   color: whitesmoke;
   font-size: larger;
+  box-shadow: 3px 3px 5px black;
+}
+
+button:hover{
+  cursor: pointer;
 }
 
 #timer {
@@ -59,4 +64,10 @@ button {
 #second-break {
   font-weight: bold;
   font-size: 20px;
+}
+
+@media screen and (max-width: 800px) {
+  body{
+    background-color: aqua;
+  }
 }
