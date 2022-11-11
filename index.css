@@ -27,7 +27,7 @@ button {
   box-shadow: 3px 3px 5px black;
 }
 
-button:hover{
+button:hover {
   cursor: pointer;
 }
 
@@ -67,7 +67,63 @@ button:hover{
 }
 
 @media screen and (max-width: 800px) {
-  body{
-    background-color: aqua;
+  h1 {
+    font-size: 40px;
+  }
+  #session-length {
+    font-weight: 300;
+    font-size: 30px;
+  }
+  #second-session {
+    font-weight: 300;
+    font-size: 30px;
+  }
+  #break-length {
+    font-weight: 300;
+    font-size: 30px;
+  }
+  #second-break {
+    font-weight: 300;
+    font-size: 30px;
+  }
+  button {
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  #session-length {
+    font-weight: 300;
+    font-size: 20px;
+  }
+  #second-session {
+    font-weight: 300;
+    font-size: 20px;
+  }
+  #break-length {
+    font-weight: 300;
+    font-size: 20px;
+  }
+  #second-break {
+    font-weight: 300;
+    font-size: 20px;
+  }
+  #session-length-title {
+    font-size: 10px;
+    font-weight: 800;
+  }
+
+  #break-label-title {
+    font-size: 10px;
+    font-weight: 800;
+  }
+  button{
+    padding: 5px;
+  }
+  #control{
+    margin:100px;
+  }
+  h1{
+    font-size: 30px;
   }
 }
