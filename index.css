@@ -15,12 +15,6 @@ h1 {
   height: 100%;
 }
 
-#control > button {
-  padding: 5%;
-  width: 50%;
-  height: 100%;
-}
-
 button {
   padding: 15px;
   margin: 10px;
@@ -73,32 +67,7 @@ button:hover {
   font-size: 20px;
 }
 
-@media screen and (max-width: 815px) {
-  h1 {
-    font-size: 40px;
-  }
-  #session-length {
-    font-weight: 300;
-    font-size: 30px;
-  }
-  #second-session {
-    font-weight: 300;
-    font-size: 30px;
-  }
-  #break-length {
-    font-weight: 300;
-    font-size: 30px;
-  }
-  #second-break {
-    font-weight: 300;
-    font-size: 30px;
-  }
-  button {
-    padding: 10px;
-  }
-}
-
-@media screen and (max-width: 690px) {
+@media screen and (max-width: 1200px) {
   #session-label {
     left: 5%;
   }
@@ -130,8 +99,10 @@ button:hover {
     font-size: 10px;
     font-weight: 800;
   }
-  button {
-    padding: 5px;
+  #control > button {
+    padding: 5%;
+    width: 50%;
+    height: 100%;
   }
   #control {
     margin: 100px;
