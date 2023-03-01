@@ -23,17 +23,14 @@ class App extends React.Component {
   }
 
   handleStart() {
-    console.log("STARTED");
     this.startTimer();
   }
 
   handleStop() {
-    console.log("STOPPED");
     this.pause();
   }
 
   handleIncrementSession() {
-    console.log("+1 MINUTE SESSION");
     this.setState(() => ({
       currentTimer: this.state.currentTimer + 1,
       currentSec: 0,
@@ -41,7 +38,6 @@ class App extends React.Component {
   }
 
   handleDecrementSession() {
-    console.log("-1 MINUTE SESSION");
     this.setState(() => ({
       currentTimer: this.state.currentTimer - 1,
       currentSec: 0,
@@ -52,7 +48,6 @@ class App extends React.Component {
   }
 
   handleIncrementBreak() {
-    console.log("+1 MINUTE BREAK");
     this.setState(() => ({
       currentBreak: this.state.currentBreak + 1,
       currentSecBreak: 0,
@@ -60,7 +55,6 @@ class App extends React.Component {
   }
 
   handleDecrementBreak() {
-    console.log("-1 MINUTE BREAK");
     this.setState(() => ({
       currentBreak: this.state.currentBreak - 1,
       currentSecBreak: 0,
@@ -72,7 +66,6 @@ class App extends React.Component {
   }
 
   handleReset() {
-    console.log("TIMER & BREAK RESET");
     this.setState(() => ({
       currentTimer: 25,
       currentSec: 0,
@@ -126,7 +119,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="whole-page">
         <h1>Pomodoro timer</h1>
         <div id="timer">
           <div id="session-label">
