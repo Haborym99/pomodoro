@@ -155,19 +155,21 @@ class App extends React.Component {
             <br />
           </div>
         </div>
-        <div id="control">
-          <button id="start" onClick={this.handleStart}>
-            {this.state.statement}
-          </button>
-          <br />
-          <button id="stop" onClick={this.handleStop}>
-            Stop
-          </button>
-          <br />
-          <button id="reset" onClick={this.handleReset}>
-            Reset
-          </button>
-          <br />
+        <div id="control-container">
+          <div id="control">
+            <button id="start" onClick={this.handleStart}>
+              {this.state.statement}
+            </button>
+            <br />
+            <button id="stop" onClick={this.handleStop}>
+              Stop
+            </button>
+            <br />
+            <button id="reset" onClick={this.handleReset}>
+              Reset
+            </button>
+            <br />
+          </div>
         </div>
       </div>
     );
